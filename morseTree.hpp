@@ -11,64 +11,64 @@
 class morseTree{
 
 public:
-struct morseNode{
-    const char data;
-    const morseNode* const dah;
-    const morseNode* const dit;
-    morseNode(const char d, const morseNode* const s = 0, const morseNode* const q = 0):data(d),dah(s),dit(q){};
-};
+    struct morseNode{
+	const char data;
+	const morseNode* const dah;
+	const morseNode* const dit;
+	morseNode(const char d, const morseNode* const s = 0, const morseNode* const q = 0):data(d),dah(s),dit(q){};
+    };
 
 
 public:
     static std::string alphabetToMorse(std::string in){
 	std::string result = "";
 	for (auto i : in)
+	{
+	    switch(i)
 	    {
-		switch(i)
-		    {
-		    case '.': result+=".-.-.- ";
-			break;
-		    case ',': result+="--..-- ";
-			break;
-		    case ' ': result+=" ";//Only one space as each character already ends with a space
-			break;
-		    }
-		int temp(int(i)-int('a'));
-		if(temp >= 0 && temp < 26)
-		    {
-			result+=alphaArray[temp]+" ";
-		    }
-		temp= (int(i)-int('A'));
-		if(temp >= 0 && temp < 26)
-		    {
-			result+=alphaArray[temp]+" ";
-		    }
-
-		temp=(int(i)-int('0'));
-		if (temp>= 0 && temp < 11)
-		    {
-			result+=alphaArray[26+temp]+" ";
-		    }
-
-
+	    case '.': result+=".-.-.- ";
+		break;
+	    case ',': result+="--..-- ";
+		break;
+	    case ' ': result+=" ";//Only one space as each character already ends with a space
+		break;
 	    }
+	    int temp(int(i)-int('a'));
+	    if(temp >= 0 && temp < 26)
+	    {
+		result+=alphaArray[temp]+" ";
+	    }
+	    temp= (int(i)-int('A'));
+	    if(temp >= 0 && temp < 26)
+	    {
+		result+=alphaArray[temp]+" ";
+	    }
+
+	    temp=(int(i)-int('0'));
+	    if (temp>= 0 && temp < 11)
+	    {
+		result+=alphaArray[26+temp]+" ";
+	    }
+
+
+	}
 	return result;	
     };
     static std::string morseToAlphabet(std::string in)
-    {
-	generate();
-	std::string result("");
-	std::size_t found = in.find("  ");
-	while(found != std::string::npos)
+	{
+	    generate();
+	    std::string result("");
+	    std::size_t found = in.find("  ");
+	    while(found != std::string::npos)
 	    {
 		result+=getWord(in.substr(0,found))+" ";
 		in = in.substr(found+2,in.length());
 		found = in.find("  ");
 
 	    }
-	return result+getWord(in);
+	    return result+getWord(in);
 
-    };
+	};
     static void clear(){
 
 	clearHelper(morseHead);
@@ -78,124 +78,124 @@ public:
 
 private:
     static void clearHelper(const morseNode* temp)
-    {
-	if (temp->dah != 0)
+	{
+	    if (temp->dah != 0)
 	    {clearHelper(temp->dah);}
 
-	if (temp->dit != 0)
+	    if (temp->dit != 0)
 	    {clearHelper(temp->dit);}
-	delete temp;
+	    delete temp;
 
-    }
+	}
     static std::string getWord(std::string in)
-    {
+	{
 
-	//	std::cout << "read in a" << in << std::endl;
-	std::string result = "";
+	    //	std::cout << "read in a" << in << std::endl;
+	    std::string result = "";
 
-	std::size_t found = in.find(" ");
-	while(found != std::string::npos)
+	    std::size_t found = in.find(" ");
+	    while(found != std::string::npos)
 	    {
 		result+=getChar(in.substr(0,found));
 		in = in.substr(found+1,in.length());
 		found = in.find(" ");
 
 	    }
-	if (in.size() != 0)
+	    if (in.size() != 0)
 	    {
 		result+= getChar(in);
 	    }
-	return result;
+	    return result;
 	
-    }
+	}
     static char getChar(std::string in)
-    {
-	//std::cout << "read in B" << in << std::endl;
-	const morseNode* temp = morseHead;
-	for (auto i : in)
+	{
+	    //std::cout << "read in B" << in << std::endl;
+	    const morseNode* temp = morseHead;
+	    for (auto i : in)
 	    {
 		if (i == '-')
-		    {
-			temp = temp->dah;
-		    }
+		{
+		    temp = temp->dah;
+		}
 		else if (i == '.')
-		    {
-			temp= temp->dit;
-		    }
+		{
+		    temp= temp->dit;
+		}
 		else{ throw "logic error";}
 		if (temp == 0)
-		    {
-			throw "logic error";
-		    }
+		{
+		    throw "logic error";
+		}
 
 	    }
-	return temp->data;
+	    return temp->data;
 
-    };
+	};
     static const morseNode* morseHead;
     static const std::string alphaArray[ALPHASIZE];
     static void generate()
-    {
-	if (morseHead != 0)
+	{
+	    if (morseHead != 0)
 	    {
 		return;
 	    }
 
-	//Period/Comma
+	    //Period/Comma
 	
-	const morseNode* const period = new morseNode('.');
+	    const morseNode* const period = new morseNode('.');
 
-	const morseNode* const periodFiller2 = new morseNode('X',period);
-	const morseNode* const periodFiller = new morseNode('X',0,periodFiller2);
-	const morseNode* const comma = new morseNode(',');
-	const morseNode* const commaFiller = new morseNode('X',comma);
-	//Bottom level
-	const morseNode* const zero = new morseNode('0');
-	const morseNode* const nine = new morseNode('9');
-	const morseNode* const eight = new morseNode('8');
-	const morseNode* const seven = new morseNode('7');
-	const morseNode* const six = new morseNode('6');
-	const morseNode* const one = new morseNode('1');
-	const morseNode* const two = new morseNode('2');
-	const morseNode* const three = new morseNode('3');
-	const morseNode* const four = new morseNode('4');
-	const morseNode* const five = new morseNode('5');
-	//Second to bottom level
-	const morseNode* const blimp = new morseNode('_',zero,nine);
-	const morseNode* const dot = new morseNode('*',0,eight);
-	const morseNode* const q = new morseNode('q');
-	const morseNode* const z = new morseNode('z',commaFiller,seven);
-	const morseNode* const y = new morseNode('y');
-	const morseNode* const c = new morseNode('c');
-	const morseNode* const x = new morseNode('x');
-	const morseNode* const b = new morseNode('b',0,six);
-	const morseNode* const j = new morseNode('j',one,0);
-	const morseNode* const p = new morseNode('p');
-	const morseNode* const l = new morseNode('l');
-	const morseNode* const dash = new morseNode('-',two,0);
-	const morseNode* const f = new morseNode('f');
-	const morseNode* const v = new morseNode('v',three,0);
-	const morseNode* const h = new morseNode('h',four,five);
-	//Middle level
-	const morseNode* const o = new morseNode('o',blimp,dot);
-	const morseNode* const g = new morseNode('g',q,z);
-	const morseNode* const k = new morseNode('k',y,c);
-	const morseNode* const d = new morseNode('d',x,b);
-	const morseNode* const w = new morseNode('w',j,p);
-	const morseNode* const r = new morseNode('r',periodFiller,l);
-	const morseNode* const u = new morseNode('u',dash,f);
-	const morseNode* const s = new morseNode('s',v,h);
-	//One below top
-	const morseNode* const m = new morseNode('m',o,g);
-	const morseNode* const n = new morseNode('n',k,d);
-	const morseNode* const a = new morseNode('a',w,r);
-	const morseNode* const i = new morseNode('i',u,s);
-	//Top level
-	const morseNode* const t = new morseNode('t',m,n);
-	const morseNode* const e = new morseNode('e',a,i);
+	    const morseNode* const periodFiller2 = new morseNode('X',period);
+	    const morseNode* const periodFiller = new morseNode('X',0,periodFiller2);
+	    const morseNode* const comma = new morseNode(',');
+	    const morseNode* const commaFiller = new morseNode('X',comma);
+	    //Bottom level
+	    const morseNode* const zero = new morseNode('0');
+	    const morseNode* const nine = new morseNode('9');
+	    const morseNode* const eight = new morseNode('8');
+	    const morseNode* const seven = new morseNode('7');
+	    const morseNode* const six = new morseNode('6');
+	    const morseNode* const one = new morseNode('1');
+	    const morseNode* const two = new morseNode('2');
+	    const morseNode* const three = new morseNode('3');
+	    const morseNode* const four = new morseNode('4');
+	    const morseNode* const five = new morseNode('5');
+	    //Second to bottom level
+	    const morseNode* const blimp = new morseNode('_',zero,nine);
+	    const morseNode* const dot = new morseNode('*',0,eight);
+	    const morseNode* const q = new morseNode('q');
+	    const morseNode* const z = new morseNode('z',commaFiller,seven);
+	    const morseNode* const y = new morseNode('y');
+	    const morseNode* const c = new morseNode('c');
+	    const morseNode* const x = new morseNode('x');
+	    const morseNode* const b = new morseNode('b',0,six);
+	    const morseNode* const j = new morseNode('j',one,0);
+	    const morseNode* const p = new morseNode('p');
+	    const morseNode* const l = new morseNode('l');
+	    const morseNode* const dash = new morseNode('-',two,0);
+	    const morseNode* const f = new morseNode('f');
+	    const morseNode* const v = new morseNode('v',three,0);
+	    const morseNode* const h = new morseNode('h',four,five);
+	    //Middle level
+	    const morseNode* const o = new morseNode('o',blimp,dot);
+	    const morseNode* const g = new morseNode('g',q,z);
+	    const morseNode* const k = new morseNode('k',y,c);
+	    const morseNode* const d = new morseNode('d',x,b);
+	    const morseNode* const w = new morseNode('w',j,p);
+	    const morseNode* const r = new morseNode('r',periodFiller,l);
+	    const morseNode* const u = new morseNode('u',dash,f);
+	    const morseNode* const s = new morseNode('s',v,h);
+	    //One below top
+	    const morseNode* const m = new morseNode('m',o,g);
+	    const morseNode* const n = new morseNode('n',k,d);
+	    const morseNode* const a = new morseNode('a',w,r);
+	    const morseNode* const i = new morseNode('i',u,s);
+	    //Top level
+	    const morseNode* const t = new morseNode('t',m,n);
+	    const morseNode* const e = new morseNode('e',a,i);
 
-	//MorseHead
-	morseHead = new morseNode('#',t,e);
+	    //MorseHead
+	    morseHead = new morseNode('#',t,e);
 
 
 	
@@ -203,7 +203,7 @@ private:
 
 
 
-    }
+	}
     morseTree(){};
 
 

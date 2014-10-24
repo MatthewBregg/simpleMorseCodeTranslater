@@ -30,7 +30,7 @@ public:
 			break;
 		    case ',': result+="--..-- ";
 			break;
-		    case ' ': result+="  ";
+		    case ' ': result+=" ";//Only one space as each character already ends with a space
 			break;
 		    }
 		int temp(int(i)-int('a'));
@@ -140,6 +140,15 @@ private:
 	    {
 		return;
 	    }
+
+	//Period/Comma
+	
+	const morseNode* const period = new morseNode('.');
+
+	const morseNode* const periodFiller2 = new morseNode('X',period);
+	const morseNode* const periodFiller = new morseNode('X',0,periodFiller2);
+	const morseNode* const comma = new morseNode(',');
+	const morseNode* const commaFiller = new morseNode('X',comma);
 	//Bottom level
 	const morseNode* const zero = new morseNode('0');
 	const morseNode* const nine = new morseNode('9');
@@ -152,10 +161,10 @@ private:
 	const morseNode* const four = new morseNode('4');
 	const morseNode* const five = new morseNode('5');
 	//Second to bottom level
-	const morseNode* const comma = new morseNode(',',zero,nine);
-	const morseNode* const period = new morseNode('.',0,eight);
+	const morseNode* const blimp = new morseNode('_',zero,nine);
+	const morseNode* const dot = new morseNode('*',0,eight);
 	const morseNode* const q = new morseNode('q');
-	const morseNode* const z = new morseNode('z',0,seven);
+	const morseNode* const z = new morseNode('z',commaFiller,seven);
 	const morseNode* const y = new morseNode('y');
 	const morseNode* const c = new morseNode('c');
 	const morseNode* const x = new morseNode('x');
@@ -168,12 +177,12 @@ private:
 	const morseNode* const v = new morseNode('v',three,0);
 	const morseNode* const h = new morseNode('h',four,five);
 	//Middle level
-	const morseNode* const o = new morseNode('o',comma,period);
+	const morseNode* const o = new morseNode('o',blimp,dot);
 	const morseNode* const g = new morseNode('g',q,z);
 	const morseNode* const k = new morseNode('k',y,c);
 	const morseNode* const d = new morseNode('d',x,b);
 	const morseNode* const w = new morseNode('w',j,p);
-	const morseNode* const r = new morseNode('r',0,l);
+	const morseNode* const r = new morseNode('r',periodFiller,l);
 	const morseNode* const u = new morseNode('u',dash,f);
 	const morseNode* const s = new morseNode('s',v,h);
 	//One below top
@@ -187,6 +196,9 @@ private:
 
 	//MorseHead
 	morseHead = new morseNode('#',t,e);
+
+
+	
 
 
 

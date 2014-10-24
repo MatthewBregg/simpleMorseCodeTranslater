@@ -1,0 +1,10 @@
+Just begin typing, a sentence that begins with a . or a - is considered morse code, and will be translated to alphanumeric letters
+Otherwise, the reverse will occur.
+
+When typing morse code, use a single space inbetween characters, and two spaces inbetween words.
+- is a dah
+. is a dit
+EX, to input the sentence "test test."
+- . ... -  - . ... - .-.-.-
+
+Supported characters a-z, A-Z, 0-9, period, and comma.
